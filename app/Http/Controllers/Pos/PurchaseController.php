@@ -19,6 +19,13 @@ class PurchaseController extends Controller
 
         $allData = Purchase::orderBy('date','desc')->orderBy('id','desc');
         return view('backend.purchase.purchase_all',compact('allData'));
-
     }
+    public function PurchaseAdd(){
+
+      $supplier = Supplier::all();
+      $unit = Unit::all();
+      $category = Category::all();
+      return view('backend.purchase.purchase_add',compact('supplier','unit','category'));
+
+  } // End Method 
 }
