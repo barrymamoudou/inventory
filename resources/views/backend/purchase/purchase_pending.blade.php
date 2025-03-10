@@ -20,15 +20,15 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <a href="{{ route('purchase.add') }}" class="btn btn-dark btn-rounded waves-effect waves-light"
-                            style="float:right;">Ajouter un achat </a> <br> <br>
+                    <a href="{{ route('purchase.all') }}" class="btn btn-primary btn-rounded waves-effect waves-light" style="float:right;"> Tous les achats</a> <br>  <br> 
 
-                        <h4 class="card-title">Toutes les données d'achat</h4>
+                    <h4 class="card-title">Toutes les données d'achats en attente </h4>
 
                         <table id="datatable" class="table table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
+                                    
                                     <th>Sl</th>
                                     <th>Numero Achat No</th>
                                     <th>Date </th>
@@ -47,22 +47,24 @@
                                 <tr>
                                     <td> {{ $key+1}} </td>
                                     <td> {{ $item->purchase_no }} </td>
-                                    <td> {{ date('d-m-Y',strtotime($item->date))  }} </td> 
-                                    <td> {{ $item['supplier']['name'] }} </td> 
-                                    <td> {{ $item['category']['name'] }} </td> 
+                                    <td> {{ date('d-m-Y',strtotime($item->date))  }} </td>
+                                    <td> {{ $item['supplier']['name'] }} </td>
+                                    <td> {{ $item['category']['name'] }} </td>
                                     <td> {{ $item->buying_qty }} </td>
-                                    <td> {{ $item['product']['name'] }} </td> 
+                                    <td> {{ $item['product']['name'] }} </td>
+
                                     <td>
                                         @if($item->status == '0')
-                                            <span class="btn btn-warning">En attente</span>
-                                            @elseif($item->status == '1')
-                                            <span class="btn btn-success">Approuvé</span>
+                                        <span class="btn btn-warning">En attente</span>
+                                        @elseif($item->status == '1')
+                                        <span class="btn btn-success">Approuvé</span>
                                         @endif
                                     </td>
+
                                     <td>
-                                    @if($item->status == '0')
-                                        <a href="{{ route('purchase.delete',$item->id) }}" class="btn btn-danger sm" title="Delete Data" id="delete">  <i class="fas fa-trash-alt"></i> </a>
-                                    @endif
+                                        @if($item->status == '0')
+                                        <a href="{{ route('purchase.approve',$item->id) }} " class="btn btn-danger sm" title="Approuvé" id="ApproveBtn">  <i class="fas fa-check-circle"></i> </a>
+                                        @endif
                                     </td>
 
                                 </tr>

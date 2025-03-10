@@ -75,17 +75,17 @@
                     </div> <!-- End card-body -->
                   
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form action="{{ route('purchase.store') }}" method="POST">
                             @csrf
                         <table class="table-sm table-bordered" width="100%" style="border-color: #ddd;">
                             <thead>
                                 <tr>
-                                    <th>Category</th>
-                                    <th>Product Name </th>
-                                    <th>PSC/KG</th>
-                                    <th>Unit Price </th>
-                                    <th>Description</th>
-                                    <th>Total Price</th>
+                                    <th>Catégorie</th> 
+                                    <th>Nom du produit</th> 
+                                    <th>Quantite (PSC/KG)</th>
+                                    <th>Prix unitaire</th> 
+                                    <th>Description</th> 
+                                    <th>Prix total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -125,35 +125,35 @@
         <input type="hidden" name="purchase_no[]" value="@{{purchase_no}}">
         <input type="hidden" name="supplier_id[]" value="@{{supplier_id}}">
 
-    <td>
-        <input type="hidden" name="category_id[]" value="@{{category_id}}">
-        @{{ category_name }}
-    </td>
+        <td>
+            <input type="hidden" name="category_id[]" value="@{{category_id}}">
+            @{{ category_name }}
+        </td>
 
-     <td>
-        <input type="hidden" name="product_id[]" value="@{{product_id}}">
-        @{{ product_name }}
-    </td>
+        <td>
+            <input type="hidden" name="product_id[]" value="@{{product_id}}">
+            @{{ product_name }}
+        </td>
 
-     <td>
-        <input type="number" min="1" class="form-control buying_qty text-right" name="buying_qty[]" value=""> 
-    </td>
+        <td>
+            <input type="number" min="1" class="form-control buying_qty text-right" name="buying_qty[]" value=""> 
+        </td>
 
-    <td>
-        <input type="number" class="form-control unit_price text-right" name="unit_price[]" value=""> 
-    </td>
+        <td>
+            <input type="number" class="form-control unit_price text-right" name="unit_price[]" value=""> 
+        </td>
 
-    <td>
-        <input type="text" class="form-control" name="description[]"> 
-    </td>
+        <td>
+            <input type="text" class="form-control" name="description[]"> 
+        </td>
 
-     <td>
-        <input type="number" class="form-control buying_price text-right" name="buying_price[]" value="0" readonly> 
-    </td>
+        <td>
+            <input type="number" class="form-control buying_price text-right" name="buying_price[]" value="0" readonly> 
+        </td>
 
-     <td>
-        <i class="btn btn-danger btn-sm fas fa-window-close removeeventmore"></i>
-    </td>
+        <td>
+            <i class="btn btn-danger btn-sm fas fa-window-close removeeventmore"></i>
+        </td>
 
     </tr>
     
@@ -208,6 +208,15 @@
 
         $(document).on("click",".removeeventmore",function(event){
             $(this).closest(".delete_add_more_item").remove();
+            totalAmountPrice();
+        });
+
+
+        $(document).on('keyup click','.unit_price,.buying_qty', function(){
+            var unit_price = $(this).closest("tr").find("input.unit_price").val();
+            var qty = $(this).closest("tr").find("input.buying_qty").val();
+            var total = unit_price * qty;
+            $(this).closest("tr").find("input.buying_price").val(total);
             totalAmountPrice();
         });
 

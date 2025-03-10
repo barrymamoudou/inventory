@@ -54,6 +54,7 @@ Route::controller(SupplierController::class)->group(function () {
 
     Route::get('/supplier/edit/{id}', 'SupplierEdit')->name('supplier.edit'); 
     Route::post('/supplier/update', 'SupplierUpdate')->name('supplier.update');
+    Route::get('/supplier/delete/{id}', 'SupplierDelete')->name('supplier.delete');
 
 });
 
@@ -103,12 +104,18 @@ Route::controller(ProductController::class)->group(function () {
 Route::controller(PurchaseController::class)->group(function () {
     Route::get('/purchase/all', action: 'PurchaseAll')->name('purchase.all'); 
     Route::get('/purchase/add', 'PurchaseAdd')->name('purchase.add');
+    Route::post('/purchase/store', 'PurchaseStore')->name('purchase.store');
+    Route::get('/purchase/delete/{id}', 'PurchaseDelete')->name('purchase.delete');
+    Route::get('/purchase/pending', 'PurchasePending')->name('purchase.pending');
+
+    Route::get('/purchase/approve/{id}', 'PurchaseApprove')->name('purchase.approve');
 });
 
 // Default All Route 
 Route::controller(DefaultController::class)->group(function () {
     Route::get('/get-category', 'GetCategory')->name('get-category'); 
     Route::get('/get-product', 'GetProduct')->name('get-product');
+    
 });
 
 
