@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="card-title">Add Product </h4><br><br>
+                        <h4 class="card-title">Page d'Achat </h4><br><br>
 
                         <div class="row">
                             <div class="col-md-4">
@@ -65,12 +65,10 @@
 
                             <div class="col-md-4">
                                 <div class="md-3">
-                                    <label for="example-text-input" class="form-label" style="margin-top:43px;">
-                                    </label>
-                                    <input type="submit" class="btn btn-secondary btn-rounded waves-effect waves-light"
-                                        value="Add More">
+                                    <label for="example-text-input" class="form-label" style="margin-top:43px;">  </label>
+                                    <i class="btn btn-secondary btn-rounded waves-effect waves-light fas fa-plus-circle addeventmore"> Add More</i>
                                 </div>
-                            </div>
+                        </div>
 
                         </div> <!-- // end row  -->
 
@@ -120,10 +118,9 @@
     </div>
 </div>
 
-
 <script id="document-template" type="text/x-handlebars-template">
 
-<tr class="delete_add_more_item" id="delete_add_more_item">
+    <tr class="delete_add_more_item" id="delete_add_more_item">
         <input type="hidden" name="date[]" value="@{{date}}">
         <input type="hidden" name="purchase_no[]" value="@{{purchase_no}}">
         <input type="hidden" name="supplier_id[]" value="@{{supplier_id}}">
@@ -146,7 +143,7 @@
         <input type="number" class="form-control unit_price text-right" name="unit_price[]" value=""> 
     </td>
 
- <td>
+    <td>
         <input type="text" class="form-control" name="description[]"> 
     </td>
 
@@ -159,51 +156,9 @@
     </td>
 
     </tr>
+    
 
 </script>
-
-
-<script type="text/javascript">
-    $(function(){
-        $(document).on('change',#supplier_id,function(){
-            var supplier_id=$(this).val();
-            $.ajax({
-                url:"{{route('get-category')}}",
-                type:'GET',
-                data:{supplier_id:supplier_id},
-                success:function(data){
-                    var html='<option value=''>Selection Categorie </option>'
-                    $.each(data, function(key,item){
-                        html+='<option value="'+item.category_id+'">'+item.category.name+'</option>'
-                    });
-                    $('#category_id').html(html);
-                }
-
-            })
-        })
-    })
-</script>
-
-<script type="text/javascript">
-    $(function(){
-        $(document).on('change','#category_id',function(){
-            var category_id = $(this).val();
-            $.ajax({
-                url:"{{ route('get-product') }}",
-                type: "GET",
-                data:{category_id:category_id},
-                success:function(data){
-                    var html = '<option value="">Select Category</option>';
-                    $.each(data,function(key,v){
-                        html += '<option value=" '+v.id+' "> '+v.name+'</option>';
-                    });
-                    $('#product_id').html(html);
-                }
-            })
-        });
-    });
-</script>
-
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -218,7 +173,7 @@
             if(date == ''){
                 $.notify("Date is Required" ,  {globalPosition: 'top right', className:'error' });
                 return false;
-                 }
+                }
                   if(purchase_no == ''){
                 $.notify("Purchase No is Required" ,  {globalPosition: 'top right', className:'error' });
                 return false;
@@ -235,10 +190,80 @@
                 $.notify("Product Field is Required" ,  {globalPosition: 'top right', className:'error' });
                 return false;
                  }
-                 var source = $("document-template").html();
+                 var source = $("#document-template").html();
                  var tamplate = Handlebars.compile(source);
-        })
-    })
+                 var data = {
+                    date:date,
+                    purchase_no:purchase_no,
+                    supplier_id:supplier_id,
+                    category_id:category_id,
+                    category_name:category_name,
+                    product_id:product_id,
+                    product_name:product_name
+                 };
+                 var html = tamplate(data);
+                 $("#addRow").append(html); 
+                 
+        });
+
+        $(document).on("click",".removeeventmore",function(event){
+            $(this).closest(".delete_add_more_item").remove();
+            totalAmountPrice();
+        });
+
+        function  totalAmountPrice(){
+            var sum=0
+            $('.buying_price').each(function(){
+                var value=$(this).val();
+                if(!isNaN(value) && value.length !=0){
+                    sum+=parseFloat(value)
+                }
+            });
+            $('#estimated_amount').val(sum)
+        }
+    });
 </script>
+
+<script type="text/javascript">
+    $(function(){
+        $(document).on('change','#supplier_id',function(){
+            var supplier_id = $(this).val();
+            $.ajax({
+                url:"{{ route('get-category') }}",
+                type: "GET",
+                data:{supplier_id:supplier_id},
+                success:function(data){
+                    var html = '<option value="">Select Category</option>';
+                    $.each(data,function(key,v){
+                        html += '<option value=" '+v.category_id+' "> '+v.category.name+'</option>';
+                    });
+                    $('#category_id').html(html);
+                }
+            })
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        $(document).on('change','#category_id',function(){
+            var category_id = $(this).val();
+            $.ajax({
+                url:"{{ route('get-product') }}",
+                type: "GET",
+                data:{category_id:category_id},
+                success:function(data){
+                    var html = '<option value="">Select Product</option>';
+                    $.each(data,function(key,v){
+                        html += '<option value=" '+v.id+' "> '+v.name+'</option>';
+                    });
+                    $('#product_id').html(html);
+                }
+            })
+        });
+    });
+</script>
+
+
 
 @endsection

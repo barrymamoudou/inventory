@@ -13,9 +13,9 @@ use App\Http\Controllers\Pos\DefaultController;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 Route::controller(DemoController::class)->group(function () {
@@ -35,11 +35,6 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 
-// Default All Route 
-Route::controller(DefaultController::class)->group(function () {
-    Route::get('/get-category', 'GetCategory')->name('get-category'); 
-    Route::get('/get-product', 'GetProduct')->name('get-product');
-});
 
 Route::get('/dashboard', function () {
     return view('admin.index');
@@ -108,6 +103,12 @@ Route::controller(ProductController::class)->group(function () {
 Route::controller(PurchaseController::class)->group(function () {
     Route::get('/purchase/all', action: 'PurchaseAll')->name('purchase.all'); 
     Route::get('/purchase/add', 'PurchaseAdd')->name('purchase.add');
+});
+
+// Default All Route 
+Route::controller(DefaultController::class)->group(function () {
+    Route::get('/get-category', 'GetCategory')->name('get-category'); 
+    Route::get('/get-product', 'GetProduct')->name('get-product');
 });
 
 
