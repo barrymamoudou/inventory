@@ -31,8 +31,7 @@
                             <div class="col-md-4">
                                 <div class="md-3">
                                     <label for="example-text-input" class="form-label">Nom du fournisseur </label>
-                                    <select id="supplier_id" name="supplier_id" class="form-select"
-                                        aria-label="Default select example">
+                                    <select id="supplier_id" name="supplier_id" class="form-select select2" aria-label="Default select example">
                                         <option selected="">Open this select menu</option>
                                         @foreach($supplier as $supp)
                                         <option value="{{ $supp->id }}">{{ $supp->name }}</option>
@@ -44,7 +43,7 @@
                             <div class="col-md-4">
                                 <div class="md-3">
                                     <label for="example-text-input" class="form-label">Nom de la Catégorie</label>
-                                    <select name="category_id" id="category_id" class="form-select"
+                                    <select name="category_id" id="category_id" class="form-select select2"
                                         aria-label="Default select example">
                                         <option selected="">Open this select menu</option>
 
@@ -55,7 +54,7 @@
                             <div class="col-md-4">
                                 <div class="md-3">
                                     <label for="example-text-input" class="form-label">Nom du produit</label>
-                                    <select name="product_id" id="product_id" class="form-select"
+                                    <select name="product_id" id="product_id" class="form-select select2"
                                         aria-label="Default select example">
                                         <option selected="">Open this select menu</option>
 

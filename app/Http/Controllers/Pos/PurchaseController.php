@@ -118,8 +118,11 @@ class PurchaseController extends Controller
   public function PurchaseApprove($id){
 
     $purchase = Purchase::findOrFail($id);
+    
     $product = Product::where('id',$purchase->product_id)->first();
+
     $purchase_qty = ((float)($purchase->buying_qty))+((float)($product->quantity));
+
     $product->quantity = $purchase_qty;
 
     if($product->save()){
